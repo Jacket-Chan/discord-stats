@@ -5,17 +5,29 @@ function thing() {
 	date = new Date();
 	var dhtstring = JSON.parse(document.getElementById("input").value);
 	//console.log(date.getTime());
-	document.getElementById("output").innerHTML = activity(dhtstring);
+	//console.log(oldestChannel(dhtstring));
+	var activitydata = activity(dhtstring)
+	document.getElementById("output").innerHTML = activitydata;
+	document.getElementById("output2").innerHTML = activityGraph(activitydata);
 }
 function activity(dhtstring, step = 3600000) {
 	//dhtstring is the original json dhtstring
-	//step is the period of time between each index in milliseconds
+	//step is the period of time between each index in milliseconds (default being an hour)
 	//console.log(output);
 	//console.log(dhtstring.data);
-	//servertc is the timecode for server creation
+	//servertc is the timecode for server creation (serverid isn't provided so oldestChannel() is used to find the creation timecode of the oldest channel instead)
 	var output = [];
 	var timecodes = getTimecodes(dhtstring);
-	var servertc = 0;
+	//console.log(timecodes);
+	var servertc = oldestChannel(dhtstring);
+	//console.log(Math.ceil((date.getTime() - servertc) / step));
+	output = filledArray(Math.ceil((date.getTime() - servertc) / step));
+	for (i = 0; i < timecodes.length; i++) {
+		//console.log(timecodes[i]);
+		//console.log(i);
+		output[Math.floor((timecodes[i] - servertc) / step)]++;
+	}
+	//console.log(output.length);
 	return output;
 }
 function getTimecodes(dhtstring) {
@@ -49,13 +61,30 @@ function filledArray(index) {
 function oldestChannel(dhtstring) {
 	//returns the timecode of the oldest channel
 	var channels = Object.keys(dhtstring.data);
-	//for (i = 0; )
+	var output = date.getTime();
+	for (i = 0; i < channels.length; i++) {
+		if (output > agebyid(channels[i])) {
+			output = agebyid(channels[i]);
+		}
+	}
+	return output;
 }
 function agebyid(id) {
 	//gets timecode of whatever you put in by its ID
-	return (id / 4194304) + 1420070400000;
+	return Math.round((id / 4194304) + 1420070400000);
 }
-
+function activityGraph(activitydata) {
+	var output = "";
+	var breakstring = "<br>";
+	var barstring = "#";
+	for (i = 0; i < activitydata.length; i++) {
+		output += breakstring;
+		for (x = 0; x < activitydata[i]; x++) {
+			output += barstring;
+		}
+	}
+	return output;
+}
 
 
 
