@@ -1,16 +1,21 @@
 //god have mercy on my soul
+//(id / 4194304) + 1420070400000
 var date;
 function thing() {
 	date = new Date();
-	console.log(date.getTime());
-	document.getElementById("output").innerHTML = activity(JSON.parse(document.getElementById("input").value));
+	var dhtstring = JSON.parse(document.getElementById("input").value);
+	//console.log(date.getTime());
+	document.getElementById("output").innerHTML = activity(dhtstring);
 }
-function activity(dhtstring) {
+function activity(dhtstring, step = 3600000) {
 	//dhtstring is the original json dhtstring
 	//step is the period of time between each index in milliseconds
-	var output = getTimecodes(dhtstring);
 	//console.log(output);
 	//console.log(dhtstring.data);
+	//servertc is the timecode for server creation
+	var output = [];
+	var timecodes = getTimecodes(dhtstring);
+	var servertc = 0;
 	return output;
 }
 function getTimecodes(dhtstring) {
@@ -41,3 +46,23 @@ function filledArray(index) {
 	}
 	return output;
 }
+function oldestChannel(dhtstring) {
+	//returns the timecode of the oldest channel
+	var channels = Object.keys(dhtstring.data);
+	//for (i = 0; )
+}
+function agebyid(id) {
+	//gets timecode of whatever you put in by its ID
+	return (id / 4194304) + 1420070400000;
+}
+
+
+
+
+
+
+
+
+
+
+
