@@ -4,13 +4,15 @@ var date;
 function thing() {
 	date = new Date();
 	var dhtstring = JSON.parse(document.getElementById("input").value);
+	var xstep = document.getElementById("inputxstep").value;
+	var ystep = document.getElementById("inputystep").value;
 	//console.log(date.getTime());
 	//console.log(oldestChannel(dhtstring));
-	var activitydata = activity(dhtstring)
+	var activitydata = activity(dhtstring, xstep);
 	document.getElementById("output").innerHTML = activitydata;
-	document.getElementById("output2").innerHTML = activityGraph(activitydata);
+	document.getElementById("output2").innerHTML = activityGraph(activitydata, xstep, ystep);
 }
-function activity(dhtstring, step = 3600000) {
+function activity(dhtstring, step) {
 	//dhtstring is the original json dhtstring
 	//step is the period of time between each index in milliseconds (default being an hour)
 	//console.log(output);
@@ -73,13 +75,13 @@ function agebyid(id) {
 	//gets timecode of whatever you put in by its ID
 	return Math.round((id / 4194304) + 1420070400000);
 }
-function activityGraph(activitydata) {
-	var output = "";
+function activityGraph(activitydata, xstep, ystep) {
+	var output = "X-step: "+xstep+" Y-step:"+ystep;
 	var breakstring = "<br>";
 	var barstring = "#";
 	for (i = 0; i < activitydata.length; i++) {
 		output += breakstring;
-		for (x = 0; x < activitydata[i]; x++) {
+		for (x = 0; x < Math.ceil(activitydata[i] / ystep); x++) {
 			output += barstring;
 		}
 	}
