@@ -8,18 +8,27 @@ function thing() {
 function activity(dhtstring) {
 	//dhtstring is the original json dhtstring
 	//step is the period of time between each index in milliseconds
-	return getTimecodes(dhtstring);
+	var output = getTimecodes(dhtstring);
+	//console.log(output);
+	//console.log(dhtstring.data);
+	return output;
 }
 function getTimecodes(dhtstring) {
 	//returns an array of all found timecodes
 	var output = [];
 	for (i = 0; i < Object.keys(dhtstring.data).length; i++) {
-		console.log(i);
-		console.log(Object.keys(dhtstring.data)[i]);
-		for (x = 0; x < Object.keys(Object.keys(dhtstring.data)[i]).length; x++) {
-			console.log(x);
-			console.log(Object.keys(Object.keys(dhtstring.data)[i])[x]);
-			output.push(Object.keys(Object.keys(dhtstring.data)[i])[x].t);
+		//console.log(i);
+		//console.log(Object.keys(dhtstring.data)[i]);
+		//console.log(Object.keys(dhtstring.data));
+		//console.log(Object.keys(dhtstring["data"]));
+		for (x = 0; x < Object.keys(dhtstring.data[Object.keys(dhtstring.data)[i]]).length; x++) {
+			//console.log(x);
+			//console.log(Object.keys(Object.keys(dhtstring.data)[i])[x]);
+			//console.log(Object.keys(Object.keys(dhtstring.data)[i]));
+			//console.log(Object.keys(dhtstring[data]))
+			//console.log(Object.keys(dhtstring.data[Object.keys(dhtstring.data)[i]]).length);
+			//console.log(dhtstring.data[Object.keys(dhtstring.data)[i]][Object.keys(dhtstring.data[Object.keys(dhtstring.data)[i]])[x]]["t"]);
+			output.push(dhtstring.data[Object.keys(dhtstring.data)[i]][Object.keys(dhtstring.data[Object.keys(dhtstring.data)[i]])[x]]["t"]);
 		}
 	}
 	return output;
