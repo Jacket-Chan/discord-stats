@@ -2,6 +2,7 @@
 //(id / 4194304) + 1420070400000
 var date = new Date();
 var begindate = 0;
+var json;
 //begindate is the timestamp of the oldest message, where the graph begins
 document.getElementById("inputfile").addEventListener('change', function() {
 	var reader = new FileReader();
@@ -24,7 +25,7 @@ async function activity(dhtstring, step) {
 	//dhtstring is the unparsed json dhtstring
 	//step is the period of time between each index in seconds (default being an hour)
 	//servertc is the timecode for server creation (serverid isn't provided so oldestChannel() is used to find the creation timecode of the oldest channel instead)
-	var json = JSON.parse(dhtstring);
+	json = JSON.parse(dhtstring);
 	var timecodes = getTimecodes(json);
 	timecodes.sort();
 	var output = new Array(Math.ceil((timecodes.slice(-1)[0] - timecodes[0]) / (step*1000))).fill(0);
@@ -54,13 +55,15 @@ function agebyid(id) {
 }*/
 function activityGraph(activitydata, xstep, ystep) {
 	// TODO: Replace this with something better.
-	console.log(begindate);
+	//console.log(begindate);
 	var begin = new Date(begindate);
 	var output = "X-step: "+xstep+" seconds, Y-step: "+ystep+" post. Beginning date: "+(begin.getMonth() + 1)+"/"+begin.getDate()+"/"+begin.getFullYear();
 	var breakstring = "<br>";
 	var barstring = "#";
 	for (i = 0; i < activitydata.length; i++) {
-		output += breakstring;
+		//cdate is the date of the current data cluster being read
+		var cdate = new Date(begindate + (i * xstep * 1000));
+		output += breakstring+(cdate.getMonth() + 1)+"/"+cdate.getDate()+"/"+cdate.getFullYear()+" "+cdate.getHours()+":"+cdate.getMinutes()+":"+cdate.getSeconds()+" | ";
 		for (x = 0; x < Math.ceil(activitydata[i] / ystep); x++) {
 			output += barstring;
 		}
