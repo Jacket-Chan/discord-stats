@@ -1,7 +1,8 @@
 //god have mercy on my soul
 //(id / 4194304) + 1420070400000
 var date = new Date();
-
+var begindate = 0;
+//begindate is the timestamp of the oldest message, where the graph begins
 document.getElementById("inputfile").addEventListener('change', function() {
 	var reader = new FileReader();
 	reader.onload = function(event) {
@@ -27,6 +28,7 @@ async function activity(dhtstring, step) {
 	var timecodes = getTimecodes(json);
 	timecodes.sort();
 	var output = new Array(Math.ceil((timecodes.slice(-1)[0] - timecodes[0]) / (step*1000))).fill(0);
+	begindate = timecodes[0];
 	for (i = 0; i < timecodes.length; i++) {
 		output[Math.floor((timecodes[i] - timecodes[0]) / (step*1000))]++;
 	}
@@ -52,7 +54,9 @@ function agebyid(id) {
 }*/
 function activityGraph(activitydata, xstep, ystep) {
 	// TODO: Replace this with something better.
-	var output = "X-step: "+xstep+" seconds, Y-step: "+ystep+" post";
+	console.log(begindate);
+	var begin = new Date(begindate);
+	var output = "X-step: "+xstep+" seconds, Y-step: "+ystep+" post. Beginning date: "+(begin.getMonth() + 1)+"/"+begin.getDate()+"/"+begin.getFullYear();
 	var breakstring = "<br>";
 	var barstring = "#";
 	for (i = 0; i < activitydata.length; i++) {
