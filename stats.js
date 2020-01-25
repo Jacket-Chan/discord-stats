@@ -13,14 +13,14 @@ function thing() {
 }
 async function activity(dhtstring, step) {
 	//dhtstring is the unparsed json dhtstring
-	//step is the period of time between each index in milliseconds (default being an hour)
+	//step is the period of time between each index in seconds (default being an hour)
 	//servertc is the timecode for server creation (serverid isn't provided so oldestChannel() is used to find the creation timecode of the oldest channel instead)
 	var json = JSON.parse(dhtstring);
 	var timecodes = getTimecodes(json);
 	timecodes.sort();
-	var output = new Array(Math.ceil((timecodes.slice(-1)[0] - timecodes[0]) / step)).fill(0)	
+	var output = new Array(Math.ceil((timecodes.slice(-1)[0] - timecodes[0]) / (step*1000))).fill(0)	
 	for (i = 0; i < timecodes.length; i++) {
-		output[Math.floor((timecodes[i] - timecodes[0]) / step)]++;
+		output[Math.floor((timecodes[i] - timecodes[0]) / (step*1000))]++;
 	}
 	return output;
 }
@@ -44,7 +44,7 @@ function agebyid(id) {
 }*/
 function activityGraph(activitydata, xstep, ystep) {
 	// TODO: Replace this with something better.
-	var output = "X-step: "+xstep+" Y-step:"+ystep;
+	var output = "X-step: "+xstep+" seconds, Y-step: "+ystep+" post";
 	var breakstring = "<br>";
 	var barstring = "#";
 	for (i = 0; i < activitydata.length; i++) {
@@ -55,13 +55,3 @@ function activityGraph(activitydata, xstep, ystep) {
 	}
 	return output;
 }
-
-
-
-
-
-
-
-
-
-
