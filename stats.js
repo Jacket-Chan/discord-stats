@@ -6,7 +6,7 @@ document.getElementById("inputfile").addEventListener('change', function() {
 	var reader = new FileReader();
 	reader.onload = function(event) {
 		thing(reader.result);
-	}
+	};
 	reader.readAsText(this.files[0]);
 });
 function thing(dhtstring) {
@@ -16,7 +16,7 @@ function thing(dhtstring) {
 		.then(activitydata => {
 			document.getElementById("output").innerHTML = activitydata;
 			document.getElementById("output2").innerHTML = activityGraph(activitydata, xstep, ystep);
-	})
+	});
 }
 
 async function activity(dhtstring, step) {
@@ -26,7 +26,7 @@ async function activity(dhtstring, step) {
 	var json = JSON.parse(dhtstring);
 	var timecodes = getTimecodes(json);
 	timecodes.sort();
-	var output = new Array(Math.ceil((timecodes.slice(-1)[0] - timecodes[0]) / (step*1000))).fill(0)	
+	var output = new Array(Math.ceil((timecodes.slice(-1)[0] - timecodes[0]) / (step*1000))).fill(0);
 	for (i = 0; i < timecodes.length; i++) {
 		output[Math.floor((timecodes[i] - timecodes[0]) / (step*1000))]++;
 	}
