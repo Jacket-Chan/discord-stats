@@ -1,8 +1,15 @@
 //god have mercy on my soul
 //(id / 4194304) + 1420070400000
 var date = new Date();
-function thing() {
-	var dhtstring = document.getElementById("input").value;
+
+document.getElementById("inputfile").addEventListener('change', function() {
+	var reader = new FileReader();
+	reader.onload = function(event) {
+		thing(reader.result);
+	}
+	reader.readAsText(this.files[0]);
+});
+function thing(dhtstring) {
 	var xstep = document.getElementById("inputxstep").value;
 	var ystep = document.getElementById("inputystep").value;
 	activity(dhtstring, xstep)
@@ -11,6 +18,7 @@ function thing() {
 			document.getElementById("output2").innerHTML = activityGraph(activitydata, xstep, ystep);
 	})
 }
+
 async function activity(dhtstring, step) {
 	//dhtstring is the unparsed json dhtstring
 	//step is the period of time between each index in seconds (default being an hour)

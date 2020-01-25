@@ -1,17 +1,16 @@
 <html>
 	<head>
 		<title>Discord Statistics Generator</title>
-		<script src="stats.js"></script>
 		<link href="stats.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<div id="title"><h1>Discord Statistics Generator</h1></div>
 		<div id="description">This is a tool made to be used with output files from <a href="https://dht.chylex.com/">Discord History Tracker</a> to generate statistics about a server.</div>
-		<textarea id="input" placeholder="Paste DHT JSON here."></textarea>
+		<input id="inputfile" type="file">
 		<input id="inputxstep" placeholder="Graph X-step" value="3600">
 		<input id="inputystep" placeholder="Graph Y-step" value="1">
-		<button type="button" onclick="thing()">Generate Statistics</button>
 		<textarea id="output"></textarea>
 		<div id="output2"></div>
+		<script src="stats.js"></script>
 	</body>
 </html>
