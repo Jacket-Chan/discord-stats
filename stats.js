@@ -4,6 +4,7 @@ var date = new Date();
 var begindate = 0;
 var json;
 //begindate is the timestamp of the oldest message, where the graph begins
+//json is the json parsed dhtstring
 document.getElementById("inputfile").addEventListener('change', function() {
 	var reader = new FileReader();
 	reader.onload = function(event) {
@@ -16,8 +17,9 @@ function thing(dhtstring) {
 	var ystep = document.getElementById("inputystep").value;
 	activity(dhtstring, xstep)
 		.then(activitydata => {
-			document.getElementById("output").innerHTML = activitydata;
-			document.getElementById("output2").innerHTML = activityGraph(activitydata, xstep, ystep);
+			document.getElementById("outputgraphraw").innerHTML = activitydata;
+			document.getElementById("outputgraph").innerHTML = activityGraph(activitydata, xstep, ystep);
+			document.getElementById("outputstatsaverages").innerHTML = activityStats();
 	});
 }
 
@@ -70,3 +72,14 @@ function activityGraph(activitydata, xstep, ystep) {
 	}
 	return output;
 }
+function activityStats() {
+	//returns statistics about most active hour per day, most active day, etc.
+	
+}
+
+
+
+
+
+
+
